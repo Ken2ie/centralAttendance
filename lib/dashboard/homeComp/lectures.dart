@@ -109,6 +109,7 @@ late final AnimationController _controller;
            return Center(
             child: Lottie.asset('assets/nolecturess.json',
             // controller: _controller
+            width: 300
             ),
            );
           }
