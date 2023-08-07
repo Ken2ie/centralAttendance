@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../api_services/timetableModel.dart';
@@ -14,15 +15,31 @@ class TimetableScreen extends StatefulWidget {
   _TimetableScreenState createState() => _TimetableScreenState();
 }
 
-class _TimetableScreenState extends State<TimetableScreen> {
+class _TimetableScreenState extends State<TimetableScreen> with SingleTickerProviderStateMixin {
+
+
+
   List<TimetableItem> timetableItems = [];
 
   @override
   void initState() {
     super.initState();
     fetchTimetableData();
+    _controller = AnimationController(vsync: this,
+    duration: Duration(seconds: 3));
   }
 
+// Lottie Animation Controller
+late final AnimationController _controller;
+
+    // @override
+    // void dispose(){
+    //   // super.dispose();
+    //   // _controller.dispo+se();
+    // }
+
+
+// Api Request for current Day lecture(s)
   Future fetchTimetableData() async {
     SharedPreferences user = await SharedPreferences.getInstance();
     dynamic userProgram = user.getString('studentProgram');
@@ -76,18 +93,27 @@ class _TimetableScreenState extends State<TimetableScreen> {
     }
   }
 
+  bool noLectures = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: 
       FutureBuilder(
         future: fetchTimetableData(),
         builder: (context, snapshot) {
           if(snapshot.data == 0){
+            noLectures = true;
+            _controller.forward();
            return Center(
-            child: Text('No lectures Today'),
+            child: Lottie.asset('assets/nolecturess.json',
+            // controller: _controller
+            ),
            );
           }
+            noLectures = false;
+            _controller.reverse();
           return   
           ListView.builder(
         scrollDirection: Axis.horizontal,

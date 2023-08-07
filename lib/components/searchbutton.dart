@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:textfield_search/textfield_search.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -10,13 +11,20 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+
+  // Search controller
+  TextEditingController myController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Expanded(
           flex: 6,
-          child: TextField(
+          child: TextFieldSearch(
+             label: 'chat search',
+             initialList: ['Ama'],
+             controller: myController,
             decoration: const InputDecoration(
               filled: true,
                border: OutlineInputBorder(

@@ -26,7 +26,7 @@ void main(){
       
       // Dashboard
       "/navigator": (context) => const Navigator(),
-      "/dashboard": (context) => const Dashboard(),
+      "/dashboard": (context) => const Dashboard(userAccesstoken: null,),
     },
   ));
 }

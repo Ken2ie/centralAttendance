@@ -22,6 +22,12 @@ class _MondayState extends State<Monday> {
     super.initState();
     fetchTimetableData();
   }
+  
+  @override
+  void dispose() {
+    super.dispose();
+    timetableItems;
+  }
 
 
   Future fetchTimetableData() async {
@@ -66,7 +72,7 @@ class _MondayState extends State<Monday> {
 
         @override
          void dispose() {
-        totalLectures;
+        timetableItems;
          super.dispose();
          }
 
@@ -103,7 +109,7 @@ class _MondayState extends State<Monday> {
                                         style: TextStyle(
                                           color: Color.fromARGB(255, 146, 146, 146),
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 10
+                                          fontSize: 12
                                         ),
                                         ),
                                       ],

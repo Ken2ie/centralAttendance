@@ -3,6 +3,7 @@ import 'package:class_attendance_app/api_services/getUserInfo.dart';
 import 'package:class_attendance_app/dashboard/dashboard.dart';
 import 'package:class_attendance_app/login/register.dart';
 import 'package:class_attendance_app/components/navigator.dart';
+import 'package:class_attendance_app/login/registerSecond.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart';
@@ -26,11 +27,11 @@ class _LoginState extends State<Login> {
   
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: 
+    return  
       Scaffold(
         resizeToAvoidBottomInset: false,
         body: Container( 
-          margin: const EdgeInsets.all(30),
+          margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 35),
           child: Flex(
           direction: Axis.vertical,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,7 +41,10 @@ class _LoginState extends State<Login> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).pushReplacementNamed('/register');
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>  RegisterSecond()),
+                       );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -162,7 +166,10 @@ class _LoginState extends State<Login> {
                 // const SizedBox(height: 20,),
                 TextButton(
                   onPressed: (){
-                   Navigator.of(context).pushReplacementNamed('/register');
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>  RegisterSecond()),
+                       );
                 }, 
                 
                 child: Text('Have not joined us yet? Please register now.',
@@ -187,8 +194,7 @@ class _LoginState extends State<Login> {
           ],
           )
         ),
-      )
-    );
+      );
   }
 
   void login() async {
@@ -215,6 +221,7 @@ class _LoginState extends State<Login> {
       //  Retrive Data after login
       var data = jsonDecode(response.body.toString());
       var record = data['record'];
+      var token = data['token'];
       var userid = record['id'];
       var userYear = record['year'];
       var userProgram = record['program'];
@@ -250,10 +257,18 @@ class _LoginState extends State<Login> {
 
       /* Routing to Dashboard if login is Successful */
 
-       Navigator.push(
-         context,
-         MaterialPageRoute(builder: (context) => Dashboard()),
-        );
+      Navigator.of(context).pop();
+      Navigator
+      .of(context)
+      .pushReplacement(
+      MaterialPageRoute(
+      builder: (BuildContext context) => Dashboard(
+       userAccesstoken: token,
+       )
+     )
+    );
+
+        
 
 
     }else {

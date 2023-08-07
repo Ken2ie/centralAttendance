@@ -13,6 +13,8 @@ import 'package:class_attendance_app/dashboard/lecture%20Component/Wednesday.dar
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../api_services/timetableModel.dart';
@@ -438,1057 +440,1085 @@ class _LecturesState extends State<Lectures> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Header(),
-              SizedBox(height: 20,),
-              // Search(),
-              Expanded(
-                flex: 6,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Flex(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    direction: Axis.vertical,
-                    children: [
-                      Text('Timetable', 
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700
-                        ),
-                      ),
-                      SizedBox(height: 15),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(30)
-                        ),
-                        height: MediaQuery.of(context).size.height / 5,
-                        width: MediaQuery.of(context).size.width,
-                        child: 
-                        // SingleChildScrollView(
-                          // scrollDirection: Axis.horizontal,
-                          // child: Flex(
-                            // direction: Axis.horizontal,
-                            // mainAxisAlignment: MainAxisAlignment.start,
-                            // children: [
-                              Center(
-                                child: Wrap(
-                                  runSpacing: 10,
-                                  spacing: 10,
-                                  runAlignment: WrapAlignment.start,
-                                  direction: Axis.horizontal,
-                                  children: [
-                                    // SizedBox(width: MediaQuery.of(context).size.width / 4.4,),
-                              //  Sunday
-                               
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                       sunday = true;
-                                       monday = false;
-                                       tuesday = false;
-                                       wednesday = false;
-                                       thursday = false;
-                                       friday = false;
-                                       saturday = false;
-                                       whiteSpace = false;
-                                    });
-                                  },
-                                  child: Sunday()
-                                  ),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                       sunday = false;
-                                       monday = true;
-                                       tuesday = false;
-                                       wednesday = false;
-                                       thursday = false;
-                                       friday = false;
-                                       saturday = false;
-                                       whiteSpace = false;
-                                    });
-                                  },
-                                  child: Monday()
-                                  ),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                       sunday = false;
-                                       monday = false;
-                                       tuesday = true;
-                                       wednesday = false;
-                                       thursday = false;
-                                       friday = false;
-                                       saturday = false;
-                                       whiteSpace = false;
-                                    });
-                                  },
-                                  child: Tuesday()
-                                  ),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                       sunday = false;
-                                       monday = false;
-                                       tuesday = false;
-                                       wednesday = true;
-                                       thursday = false;
-                                       friday = false;
-                                       saturday = false;
-                                       whiteSpace = false;
-                                    });
-                                  },
-                                  child: Wednesday()
-                                  ),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                       sunday = false;
-                                       monday = false;
-                                       tuesday = false;
-                                       wednesday = false;
-                                       thursday = true;
-                                       friday = false;
-                                       saturday = false;
-                                       whiteSpace = false;
-                                    });
-                                  },
-                                  child: Thursday()
-                                  ),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                       sunday = false;
-                                       monday = false;
-                                       tuesday = false;
-                                       wednesday = false;
-                                       thursday = false;
-                                       friday = true;
-                                       saturday = false;
-                                       whiteSpace = false;
-
-                                    });
-                                  },
-                                  child: Friday()
-                                  ),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                       sunday = false;
-                                       monday = false;
-                                       tuesday = false;
-                                       wednesday = false;
-                                       thursday = false;
-                                       friday = false;
-                                       saturday = true;
-                                       whiteSpace = false;
-                                    });
-                                  },
-                                  child: Saturday()
-                                  ),
-                                  ]
-                                ),
-                              ),
-                            // ],
-                          // ),
-                        // ),
-                      ),
-                      SizedBox(height: 50,),
-
-                     Flex(
+        body: LiquidPullToRefresh(
+            color: const Color.fromARGB(255, 255, 157, 157),
+        backgroundColor: Colors.red[900],
+          onRefresh: fetchTimetableDataFriday,
+          animSpeedFactor: 1,
+          showChildOpacityTransition: false,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Header(),
+                SizedBox(height: 20,),
+                // Search(),
+                Expanded(
+                  flex: 6,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Flex(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       direction: Axis.vertical,
-                       children: [
-                         //  For Sunday
-
-
-                      
-                      if(sunday == true)
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          
+                      children: [
+                        Text('Timetable', 
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700
+                          ),
                         ),
-                        child: 
-                            FutureBuilder(
-                              future: fetchTimetableDataSunday(),
-                              builder: ((context, snapshot) {
-                                if(snapshot.data == 0){
-                                  return Text('');
-                                }
-                                return 
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Lectures on Sunday'),
-                                    Text('Total: ' + snapshot.data.toString()),
-                                  ],
-                                );
-                              }))
-                      ),
-
-                      if(sunday == true)
-                      
-                      Container(
-                        height: 270,
-                        // child: Visibility(
-                        //  visible: sunday,
-                         child: 
-                         FutureBuilder(
-                          future: fetchTimetableDataSunday(),
-                          builder: (context, snapshot) {
-                            if(snapshot.data == 0){
-                              return Container(
-                                child: Center(
-                                 child: Text('No Lectures on Sunday')
-                                ),
-                              );
-                            }
-                            return ListView.builder(
-                              scrollDirection: Axis.vertical,
-                         
-                              itemCount: timetableItems.length,
-                              itemBuilder: (context, index) {
-                              final TimetableItem item = timetableItems[index];
-                      
-                                 return  
-                                 Container(
-                                  margin: EdgeInsets.only(bottom: 10),
-                                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                  decoration:  BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: const Color.fromARGB(255, 232, 232, 232)
+                        SizedBox(height: 15),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(30)
+                          ),
+                          height: MediaQuery.of(context).size.height / 5,
+                          width: MediaQuery.of(context).size.width,
+                          child: 
+                          // SingleChildScrollView(
+                            // scrollDirection: Axis.horizontal,
+                            // child: Flex(
+                              // direction: Axis.horizontal,
+                              // mainAxisAlignment: MainAxisAlignment.start,
+                              // children: [
+                                Center(
+                                  child: Wrap(
+                                    runSpacing: 10,
+                                    spacing: 10,
+                                    runAlignment: WrapAlignment.start,
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      // SizedBox(width: MediaQuery.of(context).size.width / 4.4,),
+                                //  Sunday
+                                 
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                         sunday = true;
+                                         monday = false;
+                                         tuesday = false;
+                                         wednesday = false;
+                                         thursday = false;
+                                         friday = false;
+                                         saturday = false;
+                                         whiteSpace = false;
+                                      });
+                                    },
+                                    child: Sunday()
+                                    ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                         sunday = false;
+                                         monday = true;
+                                         tuesday = false;
+                                         wednesday = false;
+                                         thursday = false;
+                                         friday = false;
+                                         saturday = false;
+                                         whiteSpace = false;
+                                      });
+                                    },
+                                    child: Monday()
+                                    ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                         sunday = false;
+                                         monday = false;
+                                         tuesday = true;
+                                         wednesday = false;
+                                         thursday = false;
+                                         friday = false;
+                                         saturday = false;
+                                         whiteSpace = false;
+                                      });
+                                    },
+                                    child: Tuesday()
+                                    ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                         sunday = false;
+                                         monday = false;
+                                         tuesday = false;
+                                         wednesday = true;
+                                         thursday = false;
+                                         friday = false;
+                                         saturday = false;
+                                         whiteSpace = false;
+                                      });
+                                    },
+                                    child: Wednesday()
+                                    ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                         sunday = false;
+                                         monday = false;
+                                         tuesday = false;
+                                         wednesday = false;
+                                         thursday = true;
+                                         friday = false;
+                                         saturday = false;
+                                         whiteSpace = false;
+                                      });
+                                    },
+                                    child: Thursday()
+                                    ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                         sunday = false;
+                                         monday = false;
+                                         tuesday = false;
+                                         wednesday = false;
+                                         thursday = false;
+                                         friday = true;
+                                         saturday = false;
+                                         whiteSpace = false;
+        
+                                      });
+                                    },
+                                    child: Friday()
+                                    ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                         sunday = false;
+                                         monday = false;
+                                         tuesday = false;
+                                         wednesday = false;
+                                         thursday = false;
+                                         friday = false;
+                                         saturday = true;
+                                         whiteSpace = false;
+                                      });
+                                    },
+                                    child: Saturday()
+                                    ),
+                                    ]
                                   ),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
+                                ),
+                              // ],
+                            // ),
+                          // ),
+                        ),
+                        SizedBox(height: 50,),
+        
+                       Flex(
+                        direction: Axis.vertical,
+                         children: [
+                           //  For Sunday
+        
+        
+                        
+                        if(sunday == true)
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            
+                          ),
+                          child: 
+                              FutureBuilder(
+                                future: fetchTimetableDataSunday(),
+                                builder: ((context, snapshot) {
+                                  if(snapshot.data == 0){
+                                    return Text('');
+                                  }
+                                  return 
+                                  Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: 
-                                    [
-                                      Column(
-                                        crossAxisAlignment:  CrossAxisAlignment.start,
-                                        children: 
+                                    children: [
+                                      Text('Lectures on Sunday'),
+                                      Text('Total: ' + snapshot.data.toString()),
+                                    ],
+                                  );
+                                }))
+                        ),
+        
+                        if(sunday == true)
+                        
+                        Container(
+                          height: 270,
+                          // child: Visibility(
+                          //  visible: sunday,
+                           child: 
+                           FutureBuilder(
+                            future: fetchTimetableDataSunday(),
+                            builder: (context, snapshot) {
+                              if(snapshot.data == 0){
+                                return Container(
+                                  child: Center(
+                                   child: Text('No Lectures on Sunday')
+                                  ),
+                                );
+                              }
+                              return ListView.builder(
+                                scrollDirection: Axis.vertical,
+                           
+                                itemCount: timetableItems.length,
+                                itemBuilder: (context, index) {
+                                final TimetableItem item = timetableItems[index];
+                        
+                                   return  
+                                   Container(
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                    decoration:  BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: const Color.fromARGB(255, 232, 232, 232)
+                                    ),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: 
                                       [
-                                        Text(item.course.characters.take(25).toString() + '...', 
+                                        Column(
+                                          crossAxisAlignment:  CrossAxisAlignment.start,
+                                          children: 
+                                        [
+                                          Text(item.course.characters.take(25).toString() + '...', 
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700
+                                          ),),
+                                          SizedBox(height: 2,),
+                                          Row(
+                                            mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("Lecture's Name", 
+                                             style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400
+                                            )
+                                            ),
+                                            SizedBox(width: 10,),
+                                            Text(item.startTime + ' - ' + item.endTime, 
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600
+                                            ),)
+                                            ]
+                                          )
+                                          ]
+                                          ),
+                                          InkWell(
+                                            onTap: (){},
+                                            child: Container(
+                                              width: 50,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(15))
+                                              ),
+                                          )
+                                      ]
+                                      )
+                                    );
+                                }
+                              );
+                            },
+                           )
+                          //  ),
+                        ),
+        
+                        if(monday == true)
+                        
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                child: FutureBuilder(
+                                  future: fetchTimetableDataMonday(),
+                                  builder: ((context, snapshot) {
+                                   if(snapshot.data == 0){
+                                    return Text('');
+                                  }
+                                   return 
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Lectures on Monday', 
                                         style: TextStyle(
-                                          fontSize: 14,
                                           fontWeight: FontWeight.w700
+                                        )),
+                                        Text('Total: ' + snapshot.data.toString()),
+                                      ],
+                                    );
+                                   
+                                  })),
+                              ),
+                        if(tuesday == true)
+                        
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                child: FutureBuilder(
+                                  future: fetchTimetableDataTuesday(),
+                                  builder: ((context, snapshot) {
+                                   if(snapshot.data == 0){
+                                    return Text('');
+                                  }
+                                   return 
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Lectures on Tuesday', 
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700
+                                        )),
+                                        Text('Total: ' + snapshot.data.toString()),
+                                      ],
+                                    );
+                                   
+                                  })),
+                              ),
+                        if(wednesday == true)
+                        
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                child: FutureBuilder(
+                                  future: fetchTimetableDataWednesday(),
+                                  builder: ((context, snapshot) {
+                                   if(snapshot.data == 0){
+                                    return Text('');
+                                  }
+                                   return 
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Lectures on Wednesay', 
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700
+                                        )),
+                                        Text('Total: ' + snapshot.data.toString()),
+                                      ],
+                                    );
+                                   
+                                  })),
+                              ),
+                        if(thursday == true)
+                        
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                child: FutureBuilder(
+                                  future: fetchTimetableDataThursday(),
+                                  builder: ((context, snapshot) {
+                                   if(snapshot.data == 0){
+                                    return Text('');
+                                  }
+                                   return 
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Lectures on Thursday', 
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700
+                                        )),
+                                        Text('Total: ' + snapshot.data.toString()),
+                                      ],
+                                    );
+                                   
+                                  })),
+                              ),
+                        if(friday == true)
+                        
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                child: FutureBuilder(
+                                  future: fetchTimetableDataFriday(),
+                                  builder: ((context, snapshot) {
+                                   if(snapshot.data == 0){
+                                    return Text('');
+                                  }
+                                   return 
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Lectures on Friday', 
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700
+                                        )),
+                                        Text('Total: ' + snapshot.data.toString()),
+                                      ],
+                                    );
+                                   
+                                  })),
+                              ),
+                        if(saturday == true)
+                        
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                child: FutureBuilder(
+                                  future: fetchTimetableDataSaturday(),
+                                  builder: ((context, snapshot) {
+                                   if(snapshot.data == 0){
+                                    return Text('');
+                                  }
+                                   return 
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Lectures on Saturday', 
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700
+                                        )),
+                                        Text('Total: ' + snapshot.data.toString(),
+                                        style: TextStyle(
+                                          fontSize: 10
                                         ),),
-                                        SizedBox(height: 2,),
-                                        Row(
-                                          mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text("Lecture's Name", 
-                                           style: TextStyle(
+                                      ],
+                                    );
+                                   
+                                  })),
+                              ),
+        
+                        if(monday == true)
+                        // For Monday
+                        Container(
+                          height: 270,
+                          margin: EdgeInsets.only(bottom: 0),
+                          // child: Visibility(
+                          //  visible: monday,
+                           child: 
+                           FutureBuilder(
+                            future: fetchTimetableDataMonday(),
+                            builder: (context, snapshot) {
+                              if(snapshot.data == 0){
+                                return Container(
+                                  child: Center(
+                                   child: Text('No Lectures on Monday')
+                                  ),
+                                );
+                              }
+                              return ListView.builder(
+                                scrollDirection: Axis.vertical,
+                           
+                                itemCount: timetableItems.length,
+                                itemBuilder: (context, index) {
+                                final TimetableItem item = timetableItems[index];
+        
+                                if(snapshot.connectionState == ConnectionState.waiting){
+                                  return Center(
+                                    child: Container
+                                    (
+                                      margin: EdgeInsets.only(top: 20),
+                                      width: 30,
+                                      height: 30,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.red[700],
+                                        strokeWidth: 2,
+                                      )),
+                                  );
+                                }
+                        
+                                   return  
+                                   Container(
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                    decoration:  BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: const Color.fromARGB(255, 232, 232, 232)
+                                    ),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: 
+                                      [
+                                        Column(
+                                          crossAxisAlignment:  CrossAxisAlignment.start,
+                                          children: 
+                                        [
+                                          Text(item.course.characters.take(22).toString() + '...', 
+                                          style: TextStyle(
                                             fontSize: 13,
-                                            fontWeight: FontWeight.w400
-                                          )
-                                          ),
-                                          SizedBox(width: 10,),
-                                          Text(item.startTime + ' - ' + item.endTime, 
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600
-                                          ),)
-                                          ]
-                                        )
-                                        ]
-                                        ),
-                                        InkWell(
-                                          onTap: (){},
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: Colors.black,
-                                              borderRadius: BorderRadius.circular(15))
+                                            fontWeight: FontWeight.w800
+                                          ),),
+                                          SizedBox(height: 2,),
+                                          Row(
+                                            mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("Lecture's Name", 
+                                             style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w400
+                                            )
                                             ),
-                                        )
-                                    ]
-                                    )
-                                  );
-                              }
-                            );
-                          },
-                         )
-                        //  ),
-                      ),
-
-                      if(monday == true)
-                      
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                              child: FutureBuilder(
-                                future: fetchTimetableDataMonday(),
-                                builder: ((context, snapshot) {
-                                 if(snapshot.data == 0){
-                                  return Text('');
+                                            SizedBox(width: 10,),
+                                            Text(item.startTime + ' - ' + item.endTime, 
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w600
+                                            ),)
+                                            ]
+                                          )
+                                          ]
+                                          ),
+                                          InkWell(
+                                            onTap: (){},
+                                            child: Container(
+                                              width: 50,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(15))
+                                              ),
+                                          )
+                                      ]
+                                      )
+                                    );
                                 }
-                                 return 
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Lectures on Monday', 
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700
-                                      )),
-                                      Text('Total: ' + snapshot.data.toString()),
-                                    ],
-                                  );
-                                 
-                                })),
-                            ),
-                      if(tuesday == true)
-                      
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                              child: FutureBuilder(
-                                future: fetchTimetableDataTuesday(),
-                                builder: ((context, snapshot) {
-                                 if(snapshot.data == 0){
-                                  return Text('');
-                                }
-                                 return 
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Lectures on Tuesday', 
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700
-                                      )),
-                                      Text('Total: ' + snapshot.data.toString()),
-                                    ],
-                                  );
-                                 
-                                })),
-                            ),
-                      if(wednesday == true)
-                      
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                              child: FutureBuilder(
-                                future: fetchTimetableDataWednesday(),
-                                builder: ((context, snapshot) {
-                                 if(snapshot.data == 0){
-                                  return Text('');
-                                }
-                                 return 
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Lectures on Wednesay', 
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700
-                                      )),
-                                      Text('Total: ' + snapshot.data.toString()),
-                                    ],
-                                  );
-                                 
-                                })),
-                            ),
-                      if(thursday == true)
-                      
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                              child: FutureBuilder(
-                                future: fetchTimetableDataThursday(),
-                                builder: ((context, snapshot) {
-                                 if(snapshot.data == 0){
-                                  return Text('');
-                                }
-                                 return 
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Lectures on Thursday', 
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700
-                                      )),
-                                      Text('Total: ' + snapshot.data.toString()),
-                                    ],
-                                  );
-                                 
-                                })),
-                            ),
-                      if(friday == true)
-                      
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                              child: FutureBuilder(
-                                future: fetchTimetableDataFriday(),
-                                builder: ((context, snapshot) {
-                                 if(snapshot.data == 0){
-                                  return Text('');
-                                }
-                                 return 
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Lectures on Friday', 
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700
-                                      )),
-                                      Text('Total: ' + snapshot.data.toString()),
-                                    ],
-                                  );
-                                 
-                                })),
-                            ),
-                      if(saturday == true)
-                      
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                              child: FutureBuilder(
-                                future: fetchTimetableDataSaturday(),
-                                builder: ((context, snapshot) {
-                                 if(snapshot.data == 0){
-                                  return Text('');
-                                }
-                                 return 
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Lectures on Saturday', 
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700
-                                      )),
-                                      Text('Total: ' + snapshot.data.toString(),
-                                      style: TextStyle(
-                                        fontSize: 10
-                                      ),),
-                                    ],
-                                  );
-                                 
-                                })),
-                            ),
-
-                      if(monday == true)
-                      // For Monday
-                      Container(
-                        height: 270,
-                        margin: EdgeInsets.only(bottom: 0),
-                        // child: Visibility(
-                        //  visible: monday,
-                         child: 
-                         FutureBuilder(
-                          future: fetchTimetableDataMonday(),
-                          builder: (context, snapshot) {
-                            if(snapshot.data == 0){
-                              return Container(
-                                child: Center(
-                                 child: Text('No Lectures on Monday')
-                                ),
                               );
-                            }
-                            return ListView.builder(
-                              scrollDirection: Axis.vertical,
-                         
-                              itemCount: timetableItems.length,
-                              itemBuilder: (context, index) {
-                              final TimetableItem item = timetableItems[index];
-
-                              if(snapshot.connectionState == ConnectionState.waiting){
-                                return Center(
-                                  child: Container
-                                  (
-                                    margin: EdgeInsets.only(top: 20),
-                                    width: 30,
-                                    height: 30,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.red[700],
-                                      strokeWidth: 2,
-                                    )),
+                            },
+                           )
+                          //  ),
+                        ),
+        
+                        if(tuesday == true)
+        
+                        // For Tuesday
+                        Container(
+                          height: 270,
+                          margin: EdgeInsets.only(bottom: 0),
+                          // child: Visibility(
+                          //  visible: tuesday,
+                           child: 
+                           FutureBuilder(
+                            future: fetchTimetableDataTuesday(),
+                            builder: (context, snapshot) {
+                              if(snapshot.data == 0){
+                                return Container(
+                                  child: Center(
+                                   child: Text('No Lectures on Tuesday')
+                                  ),
                                 );
                               }
-                      
-                                 return  
-                                 Container(
-                                  margin: EdgeInsets.only(bottom: 10),
-                                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                  decoration:  BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: const Color.fromARGB(255, 232, 232, 232)
-                                  ),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: 
-                                    [
-                                      Column(
-                                        crossAxisAlignment:  CrossAxisAlignment.start,
-                                        children: 
-                                      [
-                                        Text(item.course.characters.take(22).toString() + '...', 
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w800
-                                        ),),
-                                        SizedBox(height: 2,),
-                                        Row(
-                                          mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text("Lecture's Name", 
-                                           style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w400
-                                          )
-                                          ),
-                                          SizedBox(width: 10,),
-                                          Text(item.startTime + ' - ' + item.endTime, 
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w600
-                                          ),)
-                                          ]
-                                        )
-                                        ]
-                                        ),
-                                        InkWell(
-                                          onTap: (){},
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: Colors.black,
-                                              borderRadius: BorderRadius.circular(15))
-                                            ),
-                                        )
-                                    ]
-                                    )
+        
+                              return ListView.builder(
+                                scrollDirection: Axis.vertical,
+                           
+                                itemCount: timetableItems.length,
+                                itemBuilder: (context, index) {
+                                final TimetableItem item = timetableItems[index];
+        
+                                if(snapshot.connectionState == ConnectionState.waiting){
+                                  return Center(
+                                    child: Container
+                                    (
+                                      margin: EdgeInsets.only(top: 20),
+                                      width: 30,
+                                      height: 30,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.red[700],
+                                        strokeWidth: 2,
+                                      )),
                                   );
-                              }
-                            );
-                          },
-                         )
-                        //  ),
-                      ),
-
-                      if(tuesday == true)
-
-                      // For Tuesday
-                      Container(
-                        height: 270,
-                        margin: EdgeInsets.only(bottom: 0),
-                        // child: Visibility(
-                        //  visible: tuesday,
-                         child: 
-                         FutureBuilder(
-                          future: fetchTimetableDataTuesday(),
-                          builder: (context, snapshot) {
-                            if(snapshot.data == 0){
-                              return Container(
-                                child: Center(
-                                 child: Text('No Lectures on Tuesday')
-                                ),
+                                }
+                        
+                                   return  
+                                   Container(
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                    decoration:  BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: const Color.fromARGB(255, 232, 232, 232)
+                                    ),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: 
+                                      [
+                                        Column(
+                                          crossAxisAlignment:  CrossAxisAlignment.start,
+                                          children: 
+                                        [
+                                          Text(item.course.characters.take(22).toString() + '...', 
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700
+                                          ),),
+                                          SizedBox(height: 2,),
+                                          Row(
+                                            mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                            children: [
+                                            //   Text("Lecture's Name", 
+                                            //  style: TextStyle(
+                                            //   fontSize: 10,
+                                            //   fontWeight: FontWeight.w400
+                                            // )
+                                            // ),
+                                            SizedBox(width: 10,),
+                                            Text(item.startTime + ' - ' + item.endTime, 
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w600
+                                            ),)
+                                            ]
+                                          )
+                                          ]
+                                          ),
+                                          InkWell(
+                                            onTap: (){},
+                                            child: Container(
+                                              width: 50,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(15))
+                                              ),
+                                          )
+                                      ]
+                                      )
+                                    );
+                                }
                               );
-                            }
-
-                            return ListView.builder(
-                              scrollDirection: Axis.vertical,
-                         
-                              itemCount: timetableItems.length,
-                              itemBuilder: (context, index) {
-                              final TimetableItem item = timetableItems[index];
-
-                              if(snapshot.connectionState == ConnectionState.waiting){
-                                return Center(
-                                  child: Container
-                                  (
-                                    margin: EdgeInsets.only(top: 20),
-                                    width: 30,
-                                    height: 30,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.red[700],
-                                      strokeWidth: 2,
-                                    )),
+                            },
+                           )
+                          //  ),
+                        ),
+        
+                        if(wednesday == true)
+        
+                        // For Wednesday
+                        Container(
+                          height: 270,
+                          margin: EdgeInsets.only(bottom: 0),
+                          // child: Visibility(
+                          //  visible: wednesday,
+                           child: 
+                           FutureBuilder(
+                            future: fetchTimetableDataWednesday(),
+                            builder: (context, snapshot) {
+                              if(snapshot.data == 0){
+                                return Container(
+                                  child: Center(
+                                   child: Text('No Lectures on Wednesday')
+                                  ),
                                 );
                               }
-                      
-                                 return  
-                                 Container(
-                                  margin: EdgeInsets.only(bottom: 10),
-                                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                  decoration:  BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: const Color.fromARGB(255, 232, 232, 232)
-                                  ),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: 
-                                    [
-                                      Column(
-                                        crossAxisAlignment:  CrossAxisAlignment.start,
-                                        children: 
-                                      [
-                                        Text(item.course.characters.take(22).toString() + '...', 
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700
-                                        ),),
-                                        SizedBox(height: 2,),
-                                        Row(
-                                          mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                                          children: [
-                                          //   Text("Lecture's Name", 
-                                          //  style: TextStyle(
-                                          //   fontSize: 10,
-                                          //   fontWeight: FontWeight.w400
-                                          // )
-                                          // ),
-                                          SizedBox(width: 10,),
-                                          Text(item.startTime + ' - ' + item.endTime, 
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w600
-                                          ),)
-                                          ]
-                                        )
-                                        ]
-                                        ),
-                                        InkWell(
-                                          onTap: (){},
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: Colors.black,
-                                              borderRadius: BorderRadius.circular(15))
-                                            ),
-                                        )
-                                    ]
-                                    )
+                              return ListView.builder(
+                                scrollDirection: Axis.vertical,
+                           
+                                itemCount: timetableItems.length,
+                                itemBuilder: (context, index) {
+                                final TimetableItem item = timetableItems[index];
+        
+                                if(snapshot.connectionState == ConnectionState.waiting){
+                                  return Center(
+                                    child: Container
+                                    (
+                                      margin: EdgeInsets.only(top: 20),
+                                      width: 30,
+                                      height: 30,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.red[700],
+                                        strokeWidth: 2,
+                                      )),
                                   );
-                              }
-                            );
-                          },
-                         )
-                        //  ),
-                      ),
-
-                      if(wednesday == true)
-
-                      // For Wednesday
-                      Container(
-                        height: 270,
-                        margin: EdgeInsets.only(bottom: 0),
-                        // child: Visibility(
-                        //  visible: wednesday,
-                         child: 
-                         FutureBuilder(
-                          future: fetchTimetableDataWednesday(),
-                          builder: (context, snapshot) {
-                            if(snapshot.data == 0){
-                              return Container(
-                                child: Center(
-                                 child: Text('No Lectures on Wednesday')
-                                ),
+                                }
+                        
+                                   return  
+                                   Container(
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                    decoration:  BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: const Color.fromARGB(255, 232, 232, 232)
+                                    ),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: 
+                                      [
+                                        Column(
+                                          crossAxisAlignment:  CrossAxisAlignment.start,
+                                          children: 
+                                        [
+                                          Text(item.course.characters.take(22).toString() + '...', 
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700
+                                          ),),
+                                          SizedBox(height: 2,),
+                                          Row(
+                                            mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("Lecture's Name", 
+                                             style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w400
+                                            )
+                                            ),
+                                            SizedBox(width: 10,),
+                                            Text(item.startTime + ' - ' + item.endTime, 
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w600
+                                            ),)
+                                            ]
+                                          )
+                                          ]
+                                          ),
+                                          InkWell(
+                                            onTap: (){},
+                                            child: Container(
+                                              width: 50,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(15))
+                                              ),
+                                          )
+                                      ]
+                                      )
+                                    );
+                                }
                               );
-                            }
-                            return ListView.builder(
-                              scrollDirection: Axis.vertical,
-                         
-                              itemCount: timetableItems.length,
-                              itemBuilder: (context, index) {
-                              final TimetableItem item = timetableItems[index];
-
-                              if(snapshot.connectionState == ConnectionState.waiting){
-                                return Center(
-                                  child: Container
-                                  (
-                                    margin: EdgeInsets.only(top: 20),
-                                    width: 30,
-                                    height: 30,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.red[700],
-                                      strokeWidth: 2,
-                                    )),
+                            },
+                           )
+                          //  ),
+                        ),
+        
+                        if(thursday == true)
+                        // For Thursday
+                        Container(
+                          height: 270,
+                          margin: EdgeInsets.only(bottom: 0),
+                          // child: Visibility(
+                          //  visible: wednesday,
+                           child: 
+                           FutureBuilder(
+                            future: fetchTimetableDataThursday(),
+                            builder: (context, snapshot) {
+                              if(snapshot.data == 0){
+                                return Container(
+                                  child: Center(
+                                   child: Text('No Lectures on Thursday')
+                                  ),
                                 );
                               }
-                      
-                                 return  
-                                 Container(
-                                  margin: EdgeInsets.only(bottom: 10),
-                                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                  decoration:  BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: const Color.fromARGB(255, 232, 232, 232)
-                                  ),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: 
-                                    [
-                                      Column(
-                                        crossAxisAlignment:  CrossAxisAlignment.start,
-                                        children: 
-                                      [
-                                        Text(item.course.characters.take(22).toString() + '...', 
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700
-                                        ),),
-                                        SizedBox(height: 2,),
-                                        Row(
-                                          mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text("Lecture's Name", 
-                                           style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w400
-                                          )
-                                          ),
-                                          SizedBox(width: 10,),
-                                          Text(item.startTime + ' - ' + item.endTime, 
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w600
-                                          ),)
-                                          ]
-                                        )
-                                        ]
-                                        ),
-                                        InkWell(
-                                          onTap: (){},
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: Colors.black,
-                                              borderRadius: BorderRadius.circular(15))
-                                            ),
-                                        )
-                                    ]
-                                    )
+                              return ListView.builder(
+                                scrollDirection: Axis.vertical,
+                           
+                                itemCount: timetableItems.length,
+                                itemBuilder: (context, index) {
+                                
+                                final TimetableItem item = timetableItems[index];
+        
+                                if(snapshot.connectionState == ConnectionState.waiting){
+                                  return Center(
+                                    child: Container
+                                    (
+                                      margin: EdgeInsets.only(top: 20),
+                                      width: 30,
+                                      height: 30,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.red[700],
+                                        strokeWidth: 2,
+                                      )),
                                   );
-                              }
-                            );
-                          },
-                         )
-                        //  ),
-                      ),
-
-                      if(thursday == true)
-                      // For Thursday
-                      Container(
-                        height: 270,
-                        margin: EdgeInsets.only(bottom: 0),
-                        // child: Visibility(
-                        //  visible: wednesday,
-                         child: 
-                         FutureBuilder(
-                          future: fetchTimetableDataThursday(),
-                          builder: (context, snapshot) {
-                            if(snapshot.data == 0){
-                              return Container(
-                                child: Center(
-                                 child: Text('No Lectures on Thursday')
-                                ),
+                                }
+                        
+                                   return  
+                                   Container(
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                    decoration:  BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: const Color.fromARGB(255, 232, 232, 232)
+                                    ),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: 
+                                      [
+                                        Column(
+                                          crossAxisAlignment:  CrossAxisAlignment.start,
+                                          children: 
+                                        [
+                                          Text(item.course.characters.take(22).toString() + '...', 
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700
+                                          ),),
+                                          SizedBox(height: 2,),
+                                          Row(
+                                            mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("Lecture's Name", 
+                                             style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w400
+                                            )
+                                            ),
+                                            SizedBox(width: 10,),
+                                            Text(item.startTime + ' - ' + item.endTime, 
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w600
+                                            ),)
+                                            ]
+                                          )
+                                          ]
+                                          ),
+                                          InkWell(
+                                            onTap: (){},
+                                            child: Container(
+                                              width: 50,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(15))
+                                              ),
+                                          )
+                                      ]
+                                      )
+                                    );
+                                }
                               );
-                            }
-                            return ListView.builder(
-                              scrollDirection: Axis.vertical,
-                         
-                              itemCount: timetableItems.length,
-                              itemBuilder: (context, index) {
-                              
-                              final TimetableItem item = timetableItems[index];
-
-                              if(snapshot.connectionState == ConnectionState.waiting){
-                                return Center(
-                                  child: Container
-                                  (
-                                    margin: EdgeInsets.only(top: 20),
-                                    width: 30,
-                                    height: 30,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.red[700],
-                                      strokeWidth: 2,
-                                    )),
+                            },
+                           )
+                          //  ),
+                        ),
+        
+                        if(friday == true)
+        
+                        // For Friday
+                        Container(
+                          height: 270,
+                          margin: EdgeInsets.only(bottom: 0),
+                          // child: Visibility(
+                          //  visible: wednesday,
+                           child: 
+                           FutureBuilder(
+                            future: fetchTimetableDataFriday(),
+                            builder: (context, snapshot) {
+                              if(snapshot.data == 0){
+                                return Container(
+                                  child: Center(
+                                   child: Text('No Lectures on Friday')
+                                  ),
                                 );
                               }
-                      
-                                 return  
-                                 Container(
-                                  margin: EdgeInsets.only(bottom: 10),
-                                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                  decoration:  BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: const Color.fromARGB(255, 232, 232, 232)
-                                  ),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: 
-                                    [
-                                      Column(
-                                        crossAxisAlignment:  CrossAxisAlignment.start,
-                                        children: 
-                                      [
-                                        Text(item.course.characters.take(22).toString() + '...', 
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700
-                                        ),),
-                                        SizedBox(height: 2,),
-                                        Row(
-                                          mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text("Lecture's Name", 
-                                           style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w400
-                                          )
-                                          ),
-                                          SizedBox(width: 10,),
-                                          Text(item.startTime + ' - ' + item.endTime, 
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w600
-                                          ),)
-                                          ]
-                                        )
-                                        ]
-                                        ),
-                                        InkWell(
-                                          onTap: (){},
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: Colors.black,
-                                              borderRadius: BorderRadius.circular(15))
-                                            ),
-                                        )
-                                    ]
-                                    )
+                              return ListView.builder(
+                                scrollDirection: Axis.vertical,
+                           
+                                itemCount: timetableItems.length,
+                                itemBuilder: (context, index) {
+                                final TimetableItem item = timetableItems[index];
+        
+                                if(snapshot.connectionState == ConnectionState.waiting){
+                                  return Center(
+                                    child: Container
+                                    (
+                                      margin: EdgeInsets.only(top: 20),
+                                      width: 30,
+                                      height: 30,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.red[700],
+                                        strokeWidth: 2,
+                                      )),
                                   );
-                              }
-                            );
-                          },
-                         )
-                        //  ),
-                      ),
-
-                      if(friday == true)
-
-                      // For Friday
-                      Container(
-                        height: 270,
-                        margin: EdgeInsets.only(bottom: 0),
-                        // child: Visibility(
-                        //  visible: wednesday,
-                         child: 
-                         FutureBuilder(
-                          future: fetchTimetableDataFriday(),
-                          builder: (context, snapshot) {
-                            if(snapshot.data == 0){
-                              return Container(
-                                child: Center(
-                                 child: Text('No Lectures on Friday')
-                                ),
+                                }
+                        
+                                   return  
+                                   Container(
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                    decoration:  BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: const Color.fromARGB(255, 232, 232, 232)
+                                    ),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: 
+                                      [
+                                        Column(
+                                          crossAxisAlignment:  CrossAxisAlignment.start,
+                                          children: 
+                                        [
+                                          Text(item.course.characters.take(22).toString() + '...', 
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700
+                                          ),),
+                                          SizedBox(height: 2,),
+                                          Row(
+                                            mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("Lecture's Name", 
+                                             style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w400
+                                            )
+                                            ),
+                                            SizedBox(width: 10,),
+                                            Text(item.startTime + ' - ' + item.endTime, 
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w600
+                                            ),)
+                                            ]
+                                          )
+                                          ]
+                                          ),
+                                          InkWell(
+                                            onTap: (){},
+                                            child: Container(
+                                              width: 50,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(15))
+                                              ),
+                                          )
+                                      ]
+                                      )
+                                    );
+                                }
                               );
-                            }
-                            return ListView.builder(
-                              scrollDirection: Axis.vertical,
-                         
-                              itemCount: timetableItems.length,
-                              itemBuilder: (context, index) {
-                              final TimetableItem item = timetableItems[index];
-
-                              if(snapshot.connectionState == ConnectionState.waiting){
-                                return Center(
-                                  child: Container
-                                  (
-                                    margin: EdgeInsets.only(top: 20),
-                                    width: 30,
-                                    height: 30,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.red[700],
-                                      strokeWidth: 2,
-                                    )),
+                            },
+                           )
+                          //  ),
+                        ),
+        
+                        if(saturday == true)
+        
+                        // For Saturday
+                        Container(
+                          height: 270,
+                          margin: EdgeInsets.only(bottom: 0),
+                          // child: Visibility(
+                          //  visible: wednesday,
+                           child: 
+                           FutureBuilder(
+                            future: fetchTimetableDataSaturday(),
+                            builder: (context, snapshot) {
+                              if(snapshot.data == 0){
+                                return Container(
+                                  child: Center(
+                                   child: Text('No Lectures on Saturday')
+                                  ),
                                 );
                               }
-                      
-                                 return  
-                                 Container(
-                                  margin: EdgeInsets.only(bottom: 10),
-                                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                  decoration:  BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: const Color.fromARGB(255, 232, 232, 232)
-                                  ),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: 
-                                    [
-                                      Column(
-                                        crossAxisAlignment:  CrossAxisAlignment.start,
-                                        children: 
-                                      [
-                                        Text(item.course.characters.take(22).toString() + '...', 
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700
-                                        ),),
-                                        SizedBox(height: 2,),
-                                        Row(
-                                          mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text("Lecture's Name", 
-                                           style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w400
-                                          )
-                                          ),
-                                          SizedBox(width: 10,),
-                                          Text(item.startTime + ' - ' + item.endTime, 
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w600
-                                          ),)
-                                          ]
-                                        )
-                                        ]
-                                        ),
-                                        InkWell(
-                                          onTap: (){},
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: Colors.black,
-                                              borderRadius: BorderRadius.circular(15))
-                                            ),
-                                        )
-                                    ]
-                                    )
+                              return ListView.builder(
+                                scrollDirection: Axis.vertical,
+                           
+                                itemCount: timetableItems.length,
+                                itemBuilder: (context, index) {
+                                final TimetableItem item = timetableItems[index];
+        
+                                if(snapshot.connectionState == ConnectionState.waiting){
+                                  return Center(
+                                    child: Container
+                                    (
+                                      margin: EdgeInsets.only(top: 20),
+                                      width: 30,
+                                      height: 30,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.red[700],
+                                        strokeWidth: 2,
+                                      )),
                                   );
-                              }
-                            );
-                          },
-                         )
-                        //  ),
-                      ),
-
-                      if(saturday == true)
-
-                      // For Saturday
-                      Container(
-                        height: 270,
-                        margin: EdgeInsets.only(bottom: 0),
-                        // child: Visibility(
-                        //  visible: wednesday,
-                         child: 
-                         FutureBuilder(
-                          future: fetchTimetableDataSaturday(),
-                          builder: (context, snapshot) {
-                            if(snapshot.data == 0){
-                              return Container(
-                                child: Center(
-                                 child: Text('No Lectures on Saturday')
-                                ),
+                                }
+                        
+                                   return  
+                                   Container(
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                    decoration:  BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: const Color.fromARGB(255, 232, 232, 232)
+                                    ),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: 
+                                      [
+                                        Column(
+                                          crossAxisAlignment:  CrossAxisAlignment.start,
+                                          children: 
+                                        [
+                                          Text(item.course.characters.take(22).toString() + '...', 
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700
+                                          ),),
+                                          SizedBox(height: 2,),
+                                          Row(
+                                            mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("Lecture's Name", 
+                                             style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w400
+                                            )
+                                            ),
+                                            SizedBox(width: 10,),
+                                            Text(item.startTime + ' - ' + item.endTime, 
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w600
+                                            ),)
+                                            ]
+                                          )
+                                          ]
+                                          ),
+                                          InkWell(
+                                            onTap: (){},
+                                            child: Container(
+                                              width: 50,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(15))
+                                              ),
+                                          )
+                                      ]
+                                      )
+                                    );
+                                }
                               );
-                            }
-                            return ListView.builder(
-                              scrollDirection: Axis.vertical,
-                         
-                              itemCount: timetableItems.length,
-                              itemBuilder: (context, index) {
-                              final TimetableItem item = timetableItems[index];
-
-                              if(snapshot.connectionState == ConnectionState.waiting){
-                                return Center(
-                                  child: Container
-                                  (
-                                    margin: EdgeInsets.only(top: 20),
-                                    width: 30,
-                                    height: 30,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.red[700],
-                                      strokeWidth: 2,
-                                    )),
-                                );
-                              }
-                      
-                                 return  
-                                 Container(
-                                  margin: EdgeInsets.only(bottom: 10),
-                                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                  decoration:  BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: const Color.fromARGB(255, 232, 232, 232)
-                                  ),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: 
-                                    [
-                                      Column(
-                                        crossAxisAlignment:  CrossAxisAlignment.start,
-                                        children: 
-                                      [
-                                        Text(item.course.characters.take(22).toString() + '...', 
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700
-                                        ),),
-                                        SizedBox(height: 2,),
-                                        Row(
-                                          mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text("Lecture's Name", 
-                                           style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w400
-                                          )
-                                          ),
-                                          SizedBox(width: 10,),
-                                          Text(item.startTime + ' - ' + item.endTime, 
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w600
-                                          ),)
-                                          ]
-                                        )
-                                        ]
-                                        ),
-                                        InkWell(
-                                          onTap: (){},
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: Colors.black,
-                                              borderRadius: BorderRadius.circular(15))
-                                            ),
-                                        )
-                                    ]
-                                    )
-                                  );
-                              }
-                            );
-                          },
-                         )
-                        //  ),
+                            },
+                           )
+                          //  ),
+                        ),
+        
+                        if(!sunday && !monday && !tuesday && !wednesday && !thursday && !friday && !saturday)
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 188, 202, 250),
+                            borderRadius: BorderRadius.all(Radius.circular(20))
+                          ),
+                          child: Column(
+                            children: [
+                              Text('Tap any of the days in the time table to know what you have within the day.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 17
+                          )
+                          ),
+                          Container(
+                            width: 120,
+                            child: Lottie.asset('assets/point.json'))
+                            ]
+                          )
+                          )
+                         ],
+                       )
+                       
+                      ],
                       ),
-
-                      if(!sunday && !monday && !tuesday && !wednesday && !thursday && !friday && !saturday)
-                      Text('Tap any of the days in the time table to know what you have within the week.')
-                       ],
-                     )
-                     
-                    ],
-                    ),
-                ),
-              )
-            ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         
