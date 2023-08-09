@@ -286,7 +286,6 @@ class _LoginState extends State<Login> {
   }
   }catch(e){
     print(e.toString());
-
   }
 }
 
