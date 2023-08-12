@@ -25,8 +25,8 @@ int _selectedIndex = 0;
 final List<Widget> screens = [
   const Home(),
   const Lectures(),
-  const Analytics(),
-  const chats(),
+  // const Analytics(),
+  // const chats(),
   // const Mail(),
   const Settings()
 ];
@@ -86,18 +86,18 @@ final List<Widget> screens = [
                       selectedIcon: SvgPicture.asset('assets/svg/lectures.svg',
                       color: Colors.white,),
                       label: 'Lectures'),
-                    NavigationDestination(
-                      icon: SvgPicture.asset('assets/svg/analytics.svg',
-                      color: Color.fromARGB(111, 255, 255, 255)),
-                      selectedIcon: SvgPicture.asset('assets/svg/analytics.svg',
-                      color: Colors.white,),
-                      label: 'Analytics'),
-                    NavigationDestination(       
-                      icon: SvgPicture.asset('assets/svg/mail.svg',
-                      color: Color.fromARGB(111, 255, 255, 255)),
-                      selectedIcon: SvgPicture.asset('assets/svg/mail.svg',
-                      color: Colors.white,),
-                      label: 'Mail'),
+                    // NavigationDestination(
+                    //   icon: SvgPicture.asset('assets/svg/analytics.svg',
+                    //   color: Color.fromARGB(111, 255, 255, 255)),
+                    //   selectedIcon: SvgPicture.asset('assets/svg/analytics.svg',
+                    //   color: Colors.white,),
+                    //   label: 'Analytics'),
+                    // NavigationDestination(       
+                    //   icon: SvgPicture.asset('assets/svg/mail.svg',
+                    //   color: Color.fromARGB(111, 255, 255, 255)),
+                    //   selectedIcon: SvgPicture.asset('assets/svg/mail.svg',
+                    //   color: Colors.white,),
+                    //   label: 'Mail'),
                     NavigationDestination(
                       icon: SvgPicture.asset('assets/svg/settings.svg',
                       color: Color.fromARGB(111, 255, 255, 255)),

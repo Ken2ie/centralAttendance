@@ -1,9 +1,10 @@
 import 'dart:async';
-// import 'dart:ffi';
 
+import 'package:class_attendance_app/api_services/getUserInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -18,6 +19,7 @@ class _SplashState extends State<Splash> {
 void initState(){
   // TODO: implement initState
   startTimer();
+  check();
   super.initState();
 }
   Timer startTimer() {
@@ -25,9 +27,25 @@ void initState(){
     return Timer(duration, route);
   }
 
+bool userLoggedin = false;
 
-route(){
-  Navigator.of(context).pushReplacementNamed('/login');
+check() async{
+    SharedPreferences user = await SharedPreferences.getInstance();
+  dynamic userlogged = user.getString('userID');
+  print(userlogged);
+  
+}
+
+route() async{
+    SharedPreferences user = await SharedPreferences.getInstance();
+  dynamic userlogged = user.getString('userID');
+  print(userlogged);
+
+  if(userlogged != null){
+    Navigator.of(context).pushReplacementNamed('/dashboard');
+  } else if(userlogged == null){
+    Navigator.of(context).pushReplacementNamed('/login');
+  }
 }
 
 
@@ -36,10 +54,26 @@ route(){
     return Scaffold(
       backgroundColor: Colors.black,
      body : Center (
-      child: Container(
-      color: Colors.black,
-      child: Image.asset("assets/cu-logo.png"),
+      child: Flex(
+        direction: Axis.vertical,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+          color: Colors.white,
+          child: Image.asset("assets/cu-logo.png"),
     ),
+    Container(
+      child: FutureBuilder(
+        // future: StudentInfoService.getUserInfo(),
+        builder: (context, snapshot) {
+        return CircularProgressIndicator(
+          color: Colors.red[900],
+        );
+      }),
+    )
+        ],
+      ),
     ),
     );
   }

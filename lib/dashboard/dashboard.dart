@@ -9,7 +9,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key, required userAccesstoken});
+  const Dashboard({super.key});
 
   @override
   State<Dashboard> createState() => _DashboardState();

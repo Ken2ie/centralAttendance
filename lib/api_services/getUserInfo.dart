@@ -10,11 +10,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class StudentInfoService {
 
-
   static Future<UserModel> getUserInfo() async {
     SharedPreferences user = await SharedPreferences.getInstance();
   dynamic stringValue = user.getString('userID');
-  print(stringValue);
+  print("sdkvj" +stringValue);
 
   // Get User data from api
   Response response = await get(

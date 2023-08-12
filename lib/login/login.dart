@@ -218,6 +218,7 @@ class _LoginState extends State<Login> {
     if(response.statusCode == 200){
 
 
+    Navigator.of(context).pushReplacementNamed('/dashboard');
       //  Retrive Data after login
       var data = jsonDecode(response.body.toString());
       var record = data['record'];
@@ -229,10 +230,10 @@ class _LoginState extends State<Login> {
       print(data['token']);
       // print(userid);
       print('Login successfully');
-
       // Save logged in data received (Student ID)
 
        /* Login Token */
+
        SharedPreferences prefs = await SharedPreferences.getInstance();
        prefs.setString('token', data['token']);
 
@@ -252,21 +253,23 @@ class _LoginState extends State<Login> {
        /* Login Token */
        SharedPreferences userID = await SharedPreferences.getInstance();
        prefs.setString('userID', userid);
+       SharedPreferences userrcord = await SharedPreferences.getInstance();
+       prefs.setString('records', record);
        StudentInfoService.getUserInfo();
 
 
       /* Routing to Dashboard if login is Successful */
 
-      Navigator.of(context).pop();
-      Navigator
-      .of(context)
-      .pushReplacement(
-      MaterialPageRoute(
-      builder: (BuildContext context) => Dashboard(
-       userAccesstoken: token,
-       )
-     )
-    );
+    //   Navigator.of(context).pop();
+    //   Navigator
+    //   .of(context)
+    //   .pushReplacement(
+    //   MaterialPageRoute(
+    //   builder: (BuildContext context) => Dashboard(
+    //    userAccesstoken: token,
+    //    )
+    //  )
+    // );
 
         
 

@@ -20,6 +20,10 @@ class RegisterSecond extends StatefulWidget {
 
 int _currentStep = 0;
 
+bool one  = false;
+bool two  = false;
+bool three  = false;
+
 final studentEmailController = TextEditingController();
 final usernameController = TextEditingController();
 final passwordController = TextEditingController();
@@ -33,10 +37,12 @@ final semesterController= TextEditingController();
 
 var _step = 0;
 
+ 
+
  var _steps = [
     Step(
       state: _currentStep > 0 ? StepState.complete : StepState.indexed,
-      isActive: _currentStep > 0,
+      isActive: one,
       title: Text('Account', 
       style: TextStyle(
         fontSize: 10
@@ -99,7 +105,7 @@ var _step = 0;
     ),
     Step(
       state: _currentStep > 1 ? StepState.complete : StepState.indexed,
-      isActive: _currentStep >= 1,
+      isActive:  two,
       title: Text('Personal Details', 
       style: TextStyle(
         fontSize: 10
@@ -164,7 +170,7 @@ var _step = 0;
     ),
     Step(
       state: _currentStep > 2 ? StepState.complete : StepState.indexed,
-      isActive: _currentStep >= 2,
+      isActive: three,
       title: Text('Last Step', 
       style: TextStyle(
         fontSize: 10
@@ -247,12 +253,15 @@ class _RegisterSecondState extends State<RegisterSecond> {
             setState(() {
               if (_currentStep < _steps.length - 1) {
                 _currentStep += 1;
+                one = true;
               } 
               else if(lastStep){
+                three = true;
                 registerr();
               }
               else {
                 _currentStep = 0;
+                one = false;
               }
             });
                 },
@@ -261,6 +270,9 @@ class _RegisterSecondState extends State<RegisterSecond> {
               controlsBuilder: (BuildContext context, ControlsDetails details) {
                                   final lastStep = _currentStep == _steps.length - 1;
 
+                if(_currentStep >= 1){
+
+                }
                 return Container(
                   margin: EdgeInsets.only(top: 20),
                   child: Row(children: [

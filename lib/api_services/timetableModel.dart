@@ -6,6 +6,7 @@ class TimetableItem {
   String semester;
   String startTime;
   String year;
+  String indexNumber;
   String collectionId;
   String collectionName;
   DateTime created;
@@ -20,6 +21,7 @@ class TimetableItem {
     required this.semester,
     required this.startTime,
     required this.year,
+    required this.indexNumber,
     required this.collectionId,
     required this.collectionName,
     required this.created,
@@ -36,6 +38,7 @@ class TimetableItem {
       semester: json['Semester'] ?? '',
       startTime: json['StartTime'] ?? '',
       year: json['Year'] ?? '',
+      indexNumber: json['indexNumber'] ?? '',
       collectionId: json['collectionId'] ?? '',
       collectionName: json['collectionName'] ?? '',
       created: DateTime.tryParse(json['created']) ?? DateTime.now(),
