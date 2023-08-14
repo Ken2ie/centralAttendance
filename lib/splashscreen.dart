@@ -54,25 +54,27 @@ route() async{
     return Scaffold(
       backgroundColor: Colors.black,
      body : Center (
-      child: Flex(
-        direction: Axis.vertical,
-        children: [
+      child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+        child: Flex(
+          direction: Axis.vertical,
+          children: [
+            Container(
+            color: Colors.white,
+            child: Image.asset("assets/cu-logo.png"),
+          ),
           Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-          color: Colors.white,
-          child: Image.asset("assets/cu-logo.png"),
-    ),
-    Container(
-      child: FutureBuilder(
-        // future: StudentInfoService.getUserInfo(),
-        builder: (context, snapshot) {
-        return CircularProgressIndicator(
-          color: Colors.red[900],
-        );
-      }),
-    )
-        ],
+        child: FutureBuilder(
+          // future: StudentInfoService.getUserInfo(),
+          builder: (context, snapshot) {
+          return CircularProgressIndicator(
+            color: Colors.red[900],
+          );
+        }),
+          )
+          ],
+        ),
       ),
     ),
     );
