@@ -24,6 +24,7 @@ class _LoginState extends State<Login> {
   final passwordcontoller = TextEditingController();
 
   // Pocketbase Connection
+   bool circle = false; 
   
   @override
   Widget build(BuildContext context) {
@@ -139,34 +140,50 @@ class _LoginState extends State<Login> {
           //  const SizedBox(height: 100),
               Container(
                   // margin: EdgeInsets.symmetric(horizontal: 30),
-                  child: InkWell(
-                    onTap: (){
-                      login();
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 14,
-                      decoration: BoxDecoration(
-                        color: Colors.red[900],
-                        borderRadius: BorderRadius.circular(10) 
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500
+                  child: Column(
+                    children: [
+                      InkWell(
+                        onTap: () async{
+                          circle = true;
+                          print(circle);
+                          login();
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height / 14,
+                          decoration: BoxDecoration(
+                            color: Colors.red[900],
+                            borderRadius: BorderRadius.circular(10) 
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      SizedBox(height: 30,),
+                      if(circle == true)
+                      Container(
+                        height: 30,
+                        width: 30,
+                        child: CircularProgressIndicator(
+                          color: Colors.red[900],
+                          strokeWidth: 2,
+                        ),
+                      )
+                    ],
                   ),
                 ), 
                 // const SizedBox(height: 20,),
                 TextButton(
                   onPressed: (){
-                    Navigator.push(
+                    Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) =>  RegisterSecond()),
                        );
@@ -197,12 +214,10 @@ class _LoginState extends State<Login> {
       );
   }
 
-  void login() async {
 
-  
-  try{
-    
-    if(emailcontoller != '' && passwordcontoller != ''){
+   login() async {
+
+    if(emailcontoller.text.isNotEmpty && passwordcontoller.text.isNotEmpty){
       Response response = await post(
       Uri.parse('https://centralattendance.fly.dev/api/collections/students/auth-with-password'),
       headers: {
@@ -217,8 +232,11 @@ class _LoginState extends State<Login> {
 
     if(response.statusCode == 200){
 
+      Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) =>  Dashboard()),
+                       );
 
-    Navigator.of(context).pushReplacementNamed('/dashboard');
       //  Retrive Data after login
       var data = jsonDecode(response.body.toString());
       var record = data['record'];
@@ -256,25 +274,10 @@ class _LoginState extends State<Login> {
        SharedPreferences userrcord = await SharedPreferences.getInstance();
        prefs.setString('records', record);
        StudentInfoService.getUserInfo();
-
-
-      /* Routing to Dashboard if login is Successful */
-
-    //   Navigator.of(context).pop();
-    //   Navigator
-    //   .of(context)
-    //   .pushReplacement(
-    //   MaterialPageRoute(
-    //   builder: (BuildContext context) => Dashboard(
-    //    userAccesstoken: token,
-    //    )
-    //  )
-    // );
-
         
 
-
     }else {
+      circle = false;
       var error = jsonDecode(response.body.toString());
       var errorData = error['message'];
       // var errorPasswordMessage = errorData['password'];
@@ -282,13 +285,15 @@ class _LoginState extends State<Login> {
       print(error);
       ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(errorData.toString()), backgroundColor: Colors.red[900],));
+        print(circle);
+        return circle;
     }
-  }else{
+  }else if(emailcontoller.text.isEmpty || passwordcontoller.text.isEmpty){
+    circle = false;
       ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text('Cannot be Empty'), backgroundColor: Colors.red[900],));
-  }
-  }catch(e){
-    print(e.toString());
+
+        return circle;
   }
 }
 

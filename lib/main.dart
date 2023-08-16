@@ -17,8 +17,7 @@ void main() {
 
       // Sign, Signup, Forgot Password
       "/login": (context) => const Login(),
-      "/register": (context) => const Register(),
-      // "/registerS": (context) => const RegisterSecond(),
+      "/registerSecond": (context) => const RegisterSecond(),
       "/forgot": (context) => const Forgot(),
 
       // Dashboard

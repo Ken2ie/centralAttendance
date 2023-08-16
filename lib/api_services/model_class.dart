@@ -11,7 +11,7 @@ class UserModel {
     required this.id,
     required this.profilePicture,
     required this.username,
-    required this.email,
+    // required this.email,
     required this.contact,
     required this.firstName,
     required this.lastName,
@@ -22,7 +22,7 @@ class UserModel {
   String id;
   String profilePicture;
   String username;
-  String email;
+  // String email;
   // Address address;
   String contact;
   String firstName;
@@ -34,7 +34,7 @@ class UserModel {
         id: json["id"],
         profilePicture: json["profilePicture"],
         username: json["username"],
-        email: json["email"],
+        // email: json["email"],
         // address: Address.fromJson(json["address"]),
         contact: json["contact"],
         firstName: json["firstName"],
@@ -47,7 +47,7 @@ class UserModel {
         "id": id,
         "profilePicture": profilePicture,
         "username": username,
-        "email": email,
+        // "email": email,
         // "address": address.toJson(),
         "contact": contact,
         "firstName": firstName,

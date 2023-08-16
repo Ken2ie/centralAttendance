@@ -52,31 +52,27 @@ route() async{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-     body : Center (
-      child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-        child: Flex(
-          direction: Axis.vertical,
-          children: [
-            Container(
-            color: Colors.white,
-            child: Image.asset("assets/cu-logo.png"),
+      backgroundColor: Colors.white,
+     body : Container(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset('assets/cu-logo.png'),
+                SizedBox(height: 30,),
+                Container(
+                  width: 30,
+                  height: 30,
+                  child: CircularProgressIndicator(
+                    color: Colors.red[900],
+                    strokeWidth: 2,
+                  ),
+                )
+              ],
+            ),
           ),
-          Container(
-        child: FutureBuilder(
-          // future: StudentInfoService.getUserInfo(),
-          builder: (context, snapshot) {
-          return CircularProgressIndicator(
-            color: Colors.red[900],
-          );
-        }),
-          )
-          ],
-        ),
-      ),
-    ),
+     )
     );
   }
   
